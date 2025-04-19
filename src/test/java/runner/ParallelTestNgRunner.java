@@ -1,19 +1,25 @@
 package runner;
 
+import org.testng.annotations.DataProvider;
+
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
 		         features = {"src/test/java/features/IncidentPostMethod.feature:22"},
-		         glue = {"steps.def.som", "hooks"},
+		         glue = {"step.defs", "hooks"},
 		         dryRun = false,
 		         plugin = {
-		        		 "pretty",
-		        		 "html:cucumber-report.html",
 		        		 "rerun:failed-scenarios.txt"
 		         },
-		         publish = true
+		         tags = "@parallel"
 		        )
-public class TestNgRunner extends AbstractTestNGCucumberTests {	
+public class ParallelTestNgRunner extends AbstractTestNGCucumberTests {
+	
+	@Override
+	@DataProvider(parallel = true)
+	public Object[][] scenarios() {		
+		return super.scenarios();
+	}
 
 }

@@ -1,4 +1,4 @@
-package step.defs;
+package steps.def.som;
 
 import static io.restassured.RestAssured.*;
 
@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hamcrest.Matchers;
-
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import servicenow.api.services.IncidentService;
 import servicenow.models.InicidentReqPayload;
 
 public class IncidentPostMethod {
@@ -27,6 +26,8 @@ public class IncidentPostMethod {
              "description": "Create new record using Post method"
             }
 			""";	
+	
+	IncidentService incident = new IncidentService();
 
 	@Given("set base uri of the service now api")
 	public void set_base_uri_of_the_service_now_api() {
@@ -60,22 +61,26 @@ public class IncidentPostMethod {
 
 	@When("hit the post http method with request body as the pojo object")
 	public void hit_the_post_http_method_with_request_body_as_the_pojo_object() {
-		response = given()				   
-				   .headers(headers)
-				   .log().all()
-				   .body(payload)
-				   .post("/incident");
+//		response = given()				   
+//				   .headers(headers)
+//				   .log().all()
+//				   .body(payload)
+//				   .post("/incident");
+		incident.createIncident(headers, payload);
 	}
 
 	@Then("validate the status code and status line")
 	public void validate_the_status_code_and_status_line(DataTable dataTable) {
 		Map<String, String> asMap = dataTable.asMap();
-		System.out.println(asMap);
-		response.then()
-		.assertThat()
-		.statusCode(Integer.parseInt(asMap.get("StatusCode")))
-		.statusLine(Matchers.containsString(asMap.get("StatusLine")))
-		.contentType(ContentType.JSON);
+//		System.out.println(asMap);
+//		response.then()
+//		.assertThat()
+//		.statusCode(Integer.parseInt(asMap.get("StatusCode")))
+//		.statusLine(Matchers.containsString(asMap.get("StatusLine")))
+//		.contentType(ContentType.JSON);
+		incident.validateResponse(Integer.parseInt(asMap.get("StatusCode")), 
+				                  asMap.get("StatusLine"));
+		incident.validateResponseContentType(ContentType.JSON);
 	}
 	
 	@When("user set the headers of the the service now api")
@@ -88,11 +93,12 @@ public class IncidentPostMethod {
 	
 	@When("hit the post http method with request body as the string object")
 	public void hit_the_post_http_method_with_request_body_as_the_string_object() {
-		response = given()				   
-				   .headers(headers)
-				   .log().all()
-				   .body(request_payload)
-				   .post("/incident");
+//		response = given()				   
+//				   .headers(headers)
+//				   .log().all()
+//				   .body(request_payload)
+//				   .post("/incident");
+		incident.createIncident(headers, request_payload);
 	}
 
 }

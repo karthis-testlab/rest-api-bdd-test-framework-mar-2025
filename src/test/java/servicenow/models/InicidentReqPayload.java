@@ -1,4 +1,4 @@
-package models;
+package servicenow.models;
 
 public class InicidentReqPayload {
 
