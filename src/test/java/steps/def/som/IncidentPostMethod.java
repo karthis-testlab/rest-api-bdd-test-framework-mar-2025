@@ -2,6 +2,7 @@ package steps.def.som;
 
 import static io.restassured.RestAssured.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,11 @@ public class IncidentPostMethod {
 			""";	
 	
 	IncidentService incident = new IncidentService();
+	private TestContext context;
+	
+	public IncidentPostMethod(TestContext context) {
+		this.context = context;
+	}
 
 	@Given("set base uri of the service now api")
 	public void set_base_uri_of_the_service_now_api() {
@@ -78,9 +84,18 @@ public class IncidentPostMethod {
 //		.statusCode(Integer.parseInt(asMap.get("StatusCode")))
 //		.statusLine(Matchers.containsString(asMap.get("StatusLine")))
 //		.contentType(ContentType.JSON);
-		incident.validateResponse(Integer.parseInt(asMap.get("StatusCode")), 
-				                  asMap.get("StatusLine"));
-		incident.validateResponseContentType(ContentType.JSON);
+		
+		try {
+			incident.validateResponse(Integer.parseInt(asMap.get("StatusCode")), 
+					                  asMap.get("StatusLine"));
+			incident.validateResponseContentType(ContentType.JSON);
+		} catch (AssertionError e) {
+			context.setContext("response", incident.responseAsString());
+			context.setContext("error", e.getLocalizedMessage());
+			context.setContext("trace", Arrays.toString(e.getStackTrace()).replace( ',', '\n' ));
+			throw new RuntimeException(e.getLocalizedMessage());
+		}
+		
 	}
 	
 	@When("user set the headers of the the service now api")

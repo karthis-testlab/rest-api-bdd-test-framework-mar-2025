@@ -56,5 +56,9 @@ public class IncidentService {
 		response.then().assertThat()
 		        .contentType(contentType);
 	}
+	
+	public String responseAsString() {
+		return response.asPrettyString();
+	}
 
 }

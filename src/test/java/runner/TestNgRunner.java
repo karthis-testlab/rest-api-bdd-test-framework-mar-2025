@@ -9,8 +9,8 @@ import io.cucumber.testng.CucumberOptions;
 		         dryRun = false,
 		         plugin = {
 		        		 "pretty",
-		        		 "html:cucumber-report.html",
-		        		 "rerun:failed-scenarios.txt"
+		        		 "html:reports/cucumber-report.html",
+		        		 "rerun:reports/failed-scenarios.txt"
 		         },
 		         publish = true
 		        )
