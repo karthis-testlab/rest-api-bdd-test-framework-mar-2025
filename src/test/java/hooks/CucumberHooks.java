@@ -6,7 +6,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.BeforeStep;
 import io.cucumber.java.Scenario;
 import jira.services.Issues;
-import steps.def.som.TestContext;
+import steps.def.som.base.TestContext;
+
 import static utils.FileHandlers.*;
 
 public class CucumberHooks {
@@ -26,9 +27,11 @@ public class CucumberHooks {
 	public void runningAfterScenario(Scenario scenario) {		
 		if (scenario.isFailed()) {
 			
-			scenario.log("Create Bug in the SB Borad. The issue reference link: "+
+			scenario.log("Create Bug in the SB Borad. The issue reference link: https://karthikeselene.atlassian.net/browse/"+
 					new Issues().createBug("FAILED - "+scenario.getName())
-					.jsonPath().getString("self"));			
+					.jsonPath().getString("key"));	
+			
+			System.out.println(context.getContext("response"));
 			
 			createNewTxtFile(scenario.getId()+"-response", context.getContext("response"));
 			createNewTxtFile(scenario.getId()+"-error", context.getContext("error"));

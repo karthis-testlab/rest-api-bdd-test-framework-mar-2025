@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
 		         features = {"src/test/java/features/IncidentPostMethod.feature:22"},
-		         glue = {"steps.def.som", "hooks"},
+		         glue = {"steps.def.som.base", "hooks"},
 		         dryRun = false,
 		         plugin = {
 		        		 "pretty",

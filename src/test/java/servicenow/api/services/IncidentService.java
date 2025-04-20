@@ -14,11 +14,11 @@ public class IncidentService {
 	Response response;
 
 	public void getIncidents() {		
-		response = given().log().headers().when().get("/incident");
+		response = given().log().headers().when().get("/incident");		
 	}
 
 	public void getIncident(String sysId) {
-		response = given().log().headers().when().get("/incident/"+sysId);
+		response = given().log().headers().when().get("/incident/"+sysId);		
 	}
 
 	public void getIncidetsByCategory(String category) {

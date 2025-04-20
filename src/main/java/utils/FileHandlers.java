@@ -8,7 +8,7 @@ import java.nio.file.StandardOpenOption;
 public class FileHandlers {
 	
 	public static void createNewTxtFile(String fileName, String content) {
-		try {
+		try {			
 			Files.writeString(Paths.get(
 			          "./reports/"+fileName+".txt")
 			         ,content

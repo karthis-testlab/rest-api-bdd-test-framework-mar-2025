@@ -26,7 +26,7 @@ Feature: Validate service now api incident table POST method
       | Accept       | application/json |
     And hit the post http method with request body as the string object
     Then validate the status code and status line
-      | StatusCode |     200 |
+      | StatusCode |     201 |
       | StatusLine | Created |
 
   Scenario Outline: Validate user able to create new record using POST method
